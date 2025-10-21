@@ -1,338 +1,332 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Icon from "@/components/ui/icon";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import Icon from '@/components/ui/icon';
+import { useToast } from '@/hooks/use-toast';
+
+interface DanceClass {
+  id: number;
+  name: string;
+  instructor: string;
+  time: string;
+  day: string;
+  level: string;
+  duration: string;
+}
 
 const Index = () => {
-  const [selectedClass, setSelectedClass] = useState<string | null>(null);
+  const { toast } = useToast();
+  const [selectedClass, setSelectedClass] = useState<DanceClass | null>(null);
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
 
-  const danceStyles = [
-    { name: "Хип-хоп", icon: "Mic2", color: "bg-primary" },
-    { name: "Современные танцы", icon: "Sparkles", color: "bg-secondary" },
-    { name: "Балет", icon: "Music", color: "bg-accent" },
-    { name: "Латина", icon: "Flame", color: "bg-primary" },
+  const danceClasses: DanceClass[] = [
+    { id: 1, name: 'Хип-хоп для начинающих', instructor: 'Мария Волкова', time: '18:00', day: 'Понедельник', level: 'Начинающий', duration: '60 мин' },
+    { id: 2, name: 'Современные танцы', instructor: 'Анна Смирнова', time: '19:30', day: 'Понедельник', level: 'Средний', duration: '90 мин' },
+    { id: 3, name: 'Бачата', instructor: 'Карлос Гарсия', time: '20:00', day: 'Вторник', level: 'Начинающий', duration: '60 мин' },
+    { id: 4, name: 'Брейк-данс', instructor: 'Дмитрий Козлов', time: '17:00', day: 'Среда', level: 'Продвинутый', duration: '90 мин' },
+    { id: 5, name: 'Сальса', instructor: 'Елена Петрова', time: '19:00', day: 'Четверг', level: 'Средний', duration: '60 мин' },
+    { id: 6, name: 'Контемпорари', instructor: 'Ольга Иванова', time: '18:30', day: 'Пятница', level: 'Все уровни', duration: '75 мин' },
   ];
 
-  const schedule = [
-    { time: "10:00", day: "Понедельник", style: "Хип-хоп", level: "Начинающие", instructor: "Мария Петрова" },
-    { time: "12:00", day: "Понедельник", style: "Балет", level: "Средний", instructor: "Анна Иванова" },
-    { time: "18:00", day: "Понедельник", style: "Современные танцы", level: "Продвинутые", instructor: "Дмитрий Соколов" },
-    { time: "10:00", day: "Среда", style: "Латина", level: "Начинающие", instructor: "Карлос Гарсия" },
-    { time: "14:00", day: "Среда", style: "Хип-хоп", level: "Средний", instructor: "Мария Петрова" },
-    { time: "19:00", day: "Среда", style: "Балет", level: "Продвинутые", instructor: "Анна Иванова" },
-    { time: "11:00", day: "Пятница", style: "Современные танцы", level: "Начинающие", instructor: "Дмитрий Соколов" },
-    { time: "16:00", day: "Пятница", style: "Латина", level: "Средний", instructor: "Карлос Гарсия" },
-  ];
-
-  const instructors = [
-    { name: "Мария Петрова", specialty: "Хип-хоп", experience: "8 лет" },
-    { name: "Анна Иванова", specialty: "Балет", experience: "12 лет" },
-    { name: "Дмитрий Соколов", specialty: "Современные танцы", experience: "10 лет" },
-    { name: "Карлос Гарсия", specialty: "Латина", experience: "15 лет" },
-  ];
+  const handleBooking = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Запись успешно отправлена!",
+      description: `Вы записаны на ${selectedClass?.name}. Мы свяжемся с вами в ближайшее время.`,
+    });
+    setFormData({ name: '', phone: '', email: '' });
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-border">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Icon name="Music2" className="text-primary" size={32} />
+            <Icon name="Music" className="text-primary" size={32} />
             <span className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               DanceFlow
             </span>
           </div>
-          <div className="hidden md:flex gap-6">
-            <a href="#home" className="text-foreground hover:text-primary transition-colors">Главная</a>
-            <a href="#styles" className="text-foreground hover:text-primary transition-colors">Направления</a>
-            <a href="#schedule" className="text-foreground hover:text-primary transition-colors">Расписание</a>
-            <a href="#instructors" className="text-foreground hover:text-primary transition-colors">Преподаватели</a>
-            <a href="#contact" className="text-foreground hover:text-primary transition-colors">Контакты</a>
-          </div>
+          <nav className="hidden md:flex gap-6">
+            <a href="#home" className="text-sm font-medium hover:text-primary transition-colors">Главная</a>
+            <a href="#schedule" className="text-sm font-medium hover:text-primary transition-colors">Расписание</a>
+            <a href="#about" className="text-sm font-medium hover:text-primary transition-colors">О нас</a>
+            <a href="#contact" className="text-sm font-medium hover:text-primary transition-colors">Контакты</a>
+          </nav>
           <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
             Записаться
           </Button>
         </div>
-      </nav>
+      </header>
 
-      <section id="home" className="container mx-auto px-4 py-20">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6 animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Танцуй
-              </span>
-              <br />
-              свою мечту
-            </h1>
+      <section id="home" className="relative overflow-hidden py-20 md:py-32">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10" />
+        <div className="container relative">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6 animate-fade-in">
+              <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+                Танцуй с
+                <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"> энергией</span>
+              </h1>
+              <p className="text-xl text-muted-foreground">
+                Присоединяйся к нашей танцевальной семье и открой для себя мир движения, ритма и самовыражения
+              </p>
+              <div className="flex gap-4">
+                <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
+                  <Icon name="Calendar" className="mr-2" size={20} />
+                  Выбрать занятие
+                </Button>
+                <Button size="lg" variant="outline">
+                  <Icon name="Play" className="mr-2" size={20} />
+                  Смотреть видео
+                </Button>
+              </div>
+            </div>
+            <div className="relative animate-scale-in">
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-3xl blur-2xl opacity-30 animate-pulse" />
+              <img
+                src="https://cdn.poehali.dev/projects/7cd9c9fe-85e6-423c-966e-06e27420090b/files/55a1d6ed-0032-4f02-95cd-f8be62950a02.jpg"
+                alt="Танцы"
+                className="relative rounded-3xl shadow-2xl w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="schedule" className="py-20 bg-muted/30">
+        <div className="container">
+          <div className="text-center mb-12 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Расписание занятий
+            </h2>
             <p className="text-xl text-muted-foreground">
-              Профессиональная школа танцев для всех возрастов и уровней подготовки. 
-              Начни свой путь в мире танца уже сегодня!
+              Выбери направление и запишись на пробное занятие
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {danceClasses.map((danceClass, index) => (
+              <Card
+                key={danceClass.id}
+                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary/50"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors">
+                        {danceClass.name}
+                      </CardTitle>
+                      <CardDescription className="flex items-center gap-2">
+                        <Icon name="User" size={16} />
+                        {danceClass.instructor}
+                      </CardDescription>
+                    </div>
+                    <div className="bg-gradient-to-br from-primary to-secondary p-2 rounded-lg">
+                      <Icon name="Music2" size={24} className="text-white" />
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-center gap-2 text-sm">
+                    <Icon name="Calendar" size={16} className="text-primary" />
+                    <span>{danceClass.day}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Icon name="Clock" size={16} className="text-secondary" />
+                    <span>{danceClass.time} ({danceClass.duration})</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Icon name="Award" size={16} className="text-accent" />
+                    <span>{danceClass.level}</span>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        className="w-full mt-4 bg-gradient-to-r from-primary to-secondary hover:opacity-90"
+                        onClick={() => setSelectedClass(danceClass)}
+                      >
+                        <Icon name="CalendarCheck" className="mr-2" size={18} />
+                        Записаться
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>Запись на занятие</DialogTitle>
+                        <DialogDescription>
+                          {selectedClass?.name} • {selectedClass?.day} в {selectedClass?.time}
+                        </DialogDescription>
+                      </DialogHeader>
+                      <form onSubmit={handleBooking} className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="name">Ваше имя</Label>
+                          <Input
+                            id="name"
+                            placeholder="Введите ваше имя"
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="phone">Телефон</Label>
+                          <Input
+                            id="phone"
+                            type="tel"
+                            placeholder="+7 (999) 123-45-67"
+                            value={formData.phone}
+                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            placeholder="your@email.com"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <Button type="submit" className="w-full bg-gradient-to-r from-primary to-secondary">
+                          Отправить заявку
+                        </Button>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="py-20">
+        <div className="container">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative">
+              <img
+                src="https://cdn.poehali.dev/projects/7cd9c9fe-85e6-423c-966e-06e27420090b/files/3e3e7d3c-5044-4947-a9f2-647b2ef6b4ce.jpg"
+                alt="О школе"
+                className="rounded-3xl shadow-2xl"
+              />
+            </div>
+            <div className="space-y-6">
+              <h2 className="text-4xl md:text-5xl font-bold">
+                Танцевальная школа
+                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"> DanceFlow</span>
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Мы создали пространство, где каждый может раскрыть свой танцевальный потенциал. Наши опытные преподаватели помогут вам освоить различные стили танца в дружелюбной атмосфере.
+              </p>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-primary/10 p-2 rounded-lg">
+                      <Icon name="Users" className="text-primary" size={24} />
+                    </div>
+                    <span className="text-3xl font-bold">500+</span>
+                  </div>
+                  <p className="text-muted-foreground">Учеников</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-secondary/10 p-2 rounded-lg">
+                      <Icon name="Award" className="text-secondary" size={24} />
+                    </div>
+                    <span className="text-3xl font-bold">15+</span>
+                  </div>
+                  <p className="text-muted-foreground">Направлений</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-accent/10 p-2 rounded-lg">
+                      <Icon name="Star" className="text-accent" size={24} />
+                    </div>
+                    <span className="text-3xl font-bold">10+</span>
+                  </div>
+                  <p className="text-muted-foreground">Лет опыта</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-primary/10 p-2 rounded-lg">
+                      <Icon name="Trophy" className="text-primary" size={24} />
+                    </div>
+                    <span className="text-3xl font-bold">50+</span>
+                  </div>
+                  <p className="text-muted-foreground">Наград</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="py-20 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10">
+        <div className="container">
+          <div className="max-w-2xl mx-auto text-center space-y-6">
+            <h2 className="text-4xl md:text-5xl font-bold">
+              Готов начать танцевать?
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              Запишись на бесплатное пробное занятие и почувствуй энергию танца
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
+              <div className="flex items-center gap-3 bg-background/80 backdrop-blur px-6 py-4 rounded-xl">
+                <Icon name="Phone" className="text-primary" size={24} />
+                <div className="text-left">
+                  <p className="text-sm text-muted-foreground">Телефон</p>
+                  <p className="font-semibold">+7 (999) 123-45-67</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 bg-background/80 backdrop-blur px-6 py-4 rounded-xl">
+                <Icon name="Mail" className="text-secondary" size={24} />
+                <div className="text-left">
+                  <p className="text-sm text-muted-foreground">Email</p>
+                  <p className="font-semibold">info@danceflow.ru</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 bg-background/80 backdrop-blur px-6 py-4 rounded-xl">
+                <Icon name="MapPin" className="text-accent" size={24} />
+                <div className="text-left">
+                  <p className="text-sm text-muted-foreground">Адрес</p>
+                  <p className="font-semibold">ул. Танцевальная, 15</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t py-8 bg-background">
+        <div className="container">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Icon name="Music" className="text-primary" size={28} />
+              <span className="text-xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                DanceFlow
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              © 2025 DanceFlow. Все права защищены
             </p>
             <div className="flex gap-4">
-              <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
-                <Icon name="Calendar" className="mr-2" size={20} />
-                Пробное занятие
+              <Button variant="ghost" size="icon">
+                <Icon name="Instagram" size={20} />
               </Button>
-              <Button size="lg" variant="outline">
-                <Icon name="Play" className="mr-2" size={20} />
-                Смотреть видео
+              <Button variant="ghost" size="icon">
+                <Icon name="Youtube" size={20} />
+              </Button>
+              <Button variant="ghost" size="icon">
+                <Icon name="Send" size={20} />
               </Button>
             </div>
-          </div>
-          <div className="relative animate-scale-in">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-3xl blur-3xl"></div>
-            <img 
-              src="https://cdn.poehali.dev/projects/7cd9c9fe-85e6-423c-966e-06e27420090b/files/3ae20cc4-9052-4385-80cc-af4291d7eb16.jpg"
-              alt="Танцы"
-              className="relative rounded-3xl shadow-2xl w-full h-[500px] object-cover"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section id="styles" className="py-20 bg-white/50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Наши направления
-              </span>
-            </h2>
-            <p className="text-xl text-muted-foreground">Выбери свой стиль и начни танцевать</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {danceStyles.map((style, index) => (
-              <Card 
-                key={index} 
-                className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 hover:border-primary"
-              >
-                <CardContent className="p-6 text-center space-y-4">
-                  <div className={`${style.color} w-16 h-16 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform`}>
-                    <Icon name={style.icon as any} className="text-white" size={32} />
-                  </div>
-                  <h3 className="text-xl font-bold">{style.name}</h3>
-                  <p className="text-muted-foreground">Занятия для всех уровней подготовки</p>
-                  <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground">
-                    Подробнее
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="schedule" className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
-                Расписание занятий
-              </span>
-            </h2>
-            <p className="text-xl text-muted-foreground">Выбери удобное время и запишись онлайн</p>
-          </div>
-
-          <Tabs defaultValue="Понедельник" className="max-w-6xl mx-auto">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
-              <TabsTrigger value="Понедельник">Понедельник</TabsTrigger>
-              <TabsTrigger value="Среда">Среда</TabsTrigger>
-              <TabsTrigger value="Пятница">Пятница</TabsTrigger>
-            </TabsList>
-            
-            {["Понедельник", "Среда", "Пятница"].map((day) => (
-              <TabsContent key={day} value={day} className="space-y-4">
-                {schedule.filter(item => item.day === day).map((item, index) => (
-                  <Card 
-                    key={index}
-                    className={`transition-all hover:shadow-lg cursor-pointer ${
-                      selectedClass === `${day}-${index}` ? 'border-2 border-primary' : ''
-                    }`}
-                    onClick={() => setSelectedClass(`${day}-${index}`)}
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                          <div className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-3 rounded-xl text-center min-w-[80px]">
-                            <div className="text-2xl font-bold">{item.time}</div>
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-bold mb-1">{item.style}</h3>
-                            <p className="text-muted-foreground">
-                              {item.level} • {item.instructor}
-                            </p>
-                          </div>
-                        </div>
-                        <Button 
-                          className="bg-gradient-to-r from-primary to-secondary hover:opacity-90"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            alert(`Запись на ${item.style} в ${item.time}`);
-                          }}
-                        >
-                          <Icon name="UserPlus" className="mr-2" size={18} />
-                          Записаться
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </TabsContent>
-            ))}
-          </Tabs>
-        </div>
-      </section>
-
-      <section id="instructors" className="py-20 bg-white/50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
-                Наши преподаватели
-              </span>
-            </h2>
-            <p className="text-xl text-muted-foreground">Профессионалы с международным опытом</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {instructors.map((instructor, index) => (
-              <Card key={index} className="group hover:shadow-2xl transition-all hover:-translate-y-2">
-                <CardContent className="p-6 text-center space-y-4">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-r from-primary to-secondary mx-auto flex items-center justify-center text-white text-3xl font-bold">
-                    {instructor.name.split(' ').map(n => n[0]).join('')}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold mb-1">{instructor.name}</h3>
-                    <p className="text-primary font-semibold">{instructor.specialty}</p>
-                    <p className="text-muted-foreground text-sm">Опыт: {instructor.experience}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                  Свяжитесь с нами
-                </span>
-              </h2>
-              <p className="text-xl text-muted-foreground">Запишитесь на пробное занятие прямо сейчас</p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card>
-                <CardContent className="p-8 space-y-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="bg-primary/10 p-3 rounded-lg">
-                        <Icon name="MapPin" className="text-primary" size={24} />
-                      </div>
-                      <div>
-                        <p className="font-semibold">Адрес</p>
-                        <p className="text-muted-foreground">ул. Танцевальная, 15</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="bg-secondary/10 p-3 rounded-lg">
-                        <Icon name="Phone" className="text-secondary" size={24} />
-                      </div>
-                      <div>
-                        <p className="font-semibold">Телефон</p>
-                        <p className="text-muted-foreground">+7 (999) 123-45-67</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="bg-accent/10 p-3 rounded-lg">
-                        <Icon name="Mail" className="text-accent" size={24} />
-                      </div>
-                      <div>
-                        <p className="font-semibold">Email</p>
-                        <p className="text-muted-foreground">info@danceflow.ru</p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-8">
-                  <form className="space-y-4">
-                    <div>
-                      <Label htmlFor="name">Имя</Label>
-                      <Input id="name" placeholder="Ваше имя" />
-                    </div>
-                    <div>
-                      <Label htmlFor="phone">Телефон</Label>
-                      <Input id="phone" type="tel" placeholder="+7 (___) ___-__-__" />
-                    </div>
-                    <div>
-                      <Label htmlFor="style">Направление</Label>
-                      <select 
-                        id="style" 
-                        className="w-full px-3 py-2 border border-input rounded-md bg-background"
-                      >
-                        <option>Выберите направление</option>
-                        {danceStyles.map((style, i) => (
-                          <option key={i}>{style.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90">
-                      Отправить заявку
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer className="bg-foreground text-background py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <Icon name="Music2" size={28} />
-                <span className="text-2xl font-bold">DanceFlow</span>
-              </div>
-              <p className="text-background/70">
-                Профессиональная школа танцев с 2010 года
-              </p>
-            </div>
-            <div>
-              <h3 className="font-bold mb-4">Быстрые ссылки</h3>
-              <div className="space-y-2 text-background/70">
-                <div><a href="#home" className="hover:text-background transition-colors">Главная</a></div>
-                <div><a href="#styles" className="hover:text-background transition-colors">Направления</a></div>
-                <div><a href="#schedule" className="hover:text-background transition-colors">Расписание</a></div>
-              </div>
-            </div>
-            <div>
-              <h3 className="font-bold mb-4">Социальные сети</h3>
-              <div className="flex gap-4">
-                <Button size="icon" variant="outline" className="border-background/20 hover:bg-background/10">
-                  <Icon name="Instagram" size={20} />
-                </Button>
-                <Button size="icon" variant="outline" className="border-background/20 hover:bg-background/10">
-                  <Icon name="Youtube" size={20} />
-                </Button>
-                <Button size="icon" variant="outline" className="border-background/20 hover:bg-background/10">
-                  <Icon name="Facebook" size={20} />
-                </Button>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-background/20 pt-8 text-center text-background/70">
-            <p>&copy; 2024 DanceFlow. Все права защищены.</p>
           </div>
         </div>
       </footer>

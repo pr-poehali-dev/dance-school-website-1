@@ -1,0 +1,36 @@
+{
+  "tests": [
+    {
+      "name": "Create booking successfully",
+      "method": "POST",
+      "body": {
+        "name": "Иван Иванов",
+        "phone": "+7 (999) 123-45-67",
+        "email": "ivan@example.com",
+        "danceStyle": "Хип-хоп",
+        "classDay": "Понедельник",
+        "classTime": "10:00",
+        "level": "Начинающие",
+        "instructor": "Мария Петрова"
+      },
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get all bookings",
+      "method": "GET",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Reject booking with missing fields",
+      "method": "POST",
+      "body": {
+        "name": "Тест"
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
