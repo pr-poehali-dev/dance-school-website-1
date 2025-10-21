@@ -31,13 +31,52 @@ const Index = () => {
     { id: 6, name: 'Контемпорари', instructor: 'Ольга Иванова', time: '18:30', day: 'Пятница', level: 'Все уровни', duration: '75 мин' },
   ];
 
-  const handleBooking = (e: React.FormEvent) => {
+  const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Запись успешно отправлена!",
-      description: `Вы записаны на ${selectedClass?.name}. Мы свяжемся с вами в ближайшее время.`,
-    });
-    setFormData({ name: '', phone: '', email: '' });
+    
+    if (!selectedClass) return;
+    
+    try {
+      const response = await fetch('https://functions.poehali.dev/36db0ca6-9907-468d-9357-61cdfb8e0027', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          danceStyle: selectedClass.name,
+          classDay: selectedClass.day,
+          classTime: selectedClass.time,
+          level: selectedClass.level,
+          instructor: selectedClass.instructor,
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        toast({
+          title: "Запись успешно отправлена!",
+          description: data.message || `Вы записаны на ${selectedClass.name}. Мы свяжемся с вами в ближайшее время.`,
+        });
+        setFormData({ name: '', phone: '', email: '' });
+        setSelectedClass(null);
+      } else {
+        toast({
+          title: "Ошибка",
+          description: data.error || "Не удалось отправить заявку. Попробуйте позже.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось отправить заявку. Проверьте подключение к интернету.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
