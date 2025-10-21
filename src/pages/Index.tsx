@@ -106,7 +106,7 @@ const Index = () => {
         <div className="container relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-fade-in">
-              <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+              <h1 className="md:text-7xl font-bold leading-tight text-4xl">
                 Танцуй с
                 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"> энергией</span>
               </h1>
