@@ -1,158 +1,123 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import Icon from '@/components/ui/icon';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Icon from "@/components/ui/icon";
 
 const Index = () => {
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
 
-  const danceClasses = [
-    {
-      id: 'hip-hop',
-      title: 'Hip-Hop',
-      level: 'Начинающие',
-      schedule: 'Пн, Ср, Пт 18:00-19:30',
-      price: '3500 ₽/мес',
-      image: 'https://cdn.poehali.dev/projects/7cd9c9fe-85e6-423c-966e-06e27420090b/files/9faf53d7-8269-4d4b-a3cc-04c2ce85c360.jpg',
-    },
-    {
-      id: 'contemporary',
-      title: 'Современная хореография',
-      level: 'Продвинутые',
-      schedule: 'Вт, Чт 19:00-20:30',
-      price: '4000 ₽/мес',
-      image: 'https://cdn.poehali.dev/projects/7cd9c9fe-85e6-423c-966e-06e27420090b/files/2ca18a50-2686-47ea-87b1-e26336c88648.jpg',
-    },
-    {
-      id: 'latin',
-      title: 'Латина',
-      level: 'Средний',
-      schedule: 'Сб, Вс 15:00-16:30',
-      price: '3800 ₽/мес',
-      image: 'https://cdn.poehali.dev/projects/7cd9c9fe-85e6-423c-966e-06e27420090b/files/6eb88835-a8d7-4786-a919-8eb02a923fb3.jpg',
-    },
+  const danceStyles = [
+    { name: "Хип-хоп", icon: "Mic2", color: "bg-primary" },
+    { name: "Современные танцы", icon: "Sparkles", color: "bg-secondary" },
+    { name: "Балет", icon: "Music", color: "bg-accent" },
+    { name: "Латина", icon: "Flame", color: "bg-primary" },
+  ];
+
+  const schedule = [
+    { time: "10:00", day: "Понедельник", style: "Хип-хоп", level: "Начинающие", instructor: "Мария Петрова" },
+    { time: "12:00", day: "Понедельник", style: "Балет", level: "Средний", instructor: "Анна Иванова" },
+    { time: "18:00", day: "Понедельник", style: "Современные танцы", level: "Продвинутые", instructor: "Дмитрий Соколов" },
+    { time: "10:00", day: "Среда", style: "Латина", level: "Начинающие", instructor: "Карлос Гарсия" },
+    { time: "14:00", day: "Среда", style: "Хип-хоп", level: "Средний", instructor: "Мария Петрова" },
+    { time: "19:00", day: "Среда", style: "Балет", level: "Продвинутые", instructor: "Анна Иванова" },
+    { time: "11:00", day: "Пятница", style: "Современные танцы", level: "Начинающие", instructor: "Дмитрий Соколов" },
+    { time: "16:00", day: "Пятница", style: "Латина", level: "Средний", instructor: "Карлос Гарсия" },
+  ];
+
+  const instructors = [
+    { name: "Мария Петрова", specialty: "Хип-хоп", experience: "8 лет" },
+    { name: "Анна Иванова", specialty: "Балет", experience: "12 лет" },
+    { name: "Дмитрий Соколов", specialty: "Современные танцы", experience: "10 лет" },
+    { name: "Карлос Гарсия", specialty: "Латина", experience: "15 лет" },
   ];
 
   return (
-    <div className="min-h-screen">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-border">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Icon name="Music" className="h-8 w-8 text-primary" />
+            <Icon name="Music2" className="text-primary" size={32} />
             <span className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Dance Flow
+              DanceFlow
             </span>
           </div>
-          <nav className="hidden md:flex gap-6">
-            <a href="#home" className="text-sm font-medium hover:text-primary transition-colors">
-              Главная
-            </a>
-            <a href="#classes" className="text-sm font-medium hover:text-primary transition-colors">
-              Классы
-            </a>
-            <a href="#schedule" className="text-sm font-medium hover:text-primary transition-colors">
-              Расписание
-            </a>
-            <a href="#contact" className="text-sm font-medium hover:text-primary transition-colors">
-              Контакты
-            </a>
-          </nav>
+          <div className="hidden md:flex gap-6">
+            <a href="#home" className="text-foreground hover:text-primary transition-colors">Главная</a>
+            <a href="#styles" className="text-foreground hover:text-primary transition-colors">Направления</a>
+            <a href="#schedule" className="text-foreground hover:text-primary transition-colors">Расписание</a>
+            <a href="#instructors" className="text-foreground hover:text-primary transition-colors">Преподаватели</a>
+            <a href="#contact" className="text-foreground hover:text-primary transition-colors">Контакты</a>
+          </div>
           <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
             Записаться
           </Button>
         </div>
-      </header>
+      </nav>
 
-      <section id="home" className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 py-20">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-                Почувствуй
-                <span className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                  ритм жизни
-                </span>
-              </h1>
-              <p className="text-xl text-muted-foreground">
-                Танцуй с лучшими инструкторами города. Современные направления, профессиональные залы и вдохновляющая атмосфера
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
-                  <Icon name="Play" className="mr-2 h-5 w-5" />
-                  Начать сейчас
-                </Button>
-                <Button size="lg" variant="outline">
-                  <Icon name="Calendar" className="mr-2 h-5 w-5" />
-                  Пробное занятие
-                </Button>
-              </div>
-              <div className="flex gap-8 pt-4">
-                <div>
-                  <div className="text-3xl font-bold text-primary">500+</div>
-                  <div className="text-sm text-muted-foreground">Учеников</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-secondary">15</div>
-                  <div className="text-sm text-muted-foreground">Направлений</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-accent">8</div>
-                  <div className="text-sm text-muted-foreground">Лет опыта</div>
-                </div>
-              </div>
+      <section id="home" className="container mx-auto px-4 py-20">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6 animate-fade-in">
+            <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Танцуй
+              </span>
+              <br />
+              свою мечту
+            </h1>
+            <p className="text-xl text-muted-foreground">
+              Профессиональная школа танцев для всех возрастов и уровней подготовки. 
+              Начни свой путь в мире танца уже сегодня!
+            </p>
+            <div className="flex gap-4">
+              <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
+                <Icon name="Calendar" className="mr-2" size={20} />
+                Пробное занятие
+              </Button>
+              <Button size="lg" variant="outline">
+                <Icon name="Play" className="mr-2" size={20} />
+                Смотреть видео
+              </Button>
             </div>
-            <div className="relative">
-              <img
-                src="https://cdn.poehali.dev/projects/7cd9c9fe-85e6-423c-966e-06e27420090b/files/9faf53d7-8269-4d4b-a3cc-04c2ce85c360.jpg"
-                alt="Dance"
-                className="rounded-2xl shadow-2xl"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-gradient-to-r from-primary to-secondary p-6 rounded-xl text-white shadow-xl">
-                <Icon name="Award" className="h-8 w-8 mb-2" />
-                <div className="font-bold">Лучшая школа</div>
-                <div className="text-sm opacity-90">2024 года</div>
-              </div>
-            </div>
+          </div>
+          <div className="relative animate-scale-in">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-3xl blur-3xl"></div>
+            <img 
+              src="https://cdn.poehali.dev/projects/7cd9c9fe-85e6-423c-966e-06e27420090b/files/3ae20cc4-9052-4385-80cc-af4291d7eb16.jpg"
+              alt="Танцы"
+              className="relative rounded-3xl shadow-2xl w-full h-[500px] object-cover"
+            />
           </div>
         </div>
       </section>
 
-      <section id="classes" className="py-20">
-        <div className="container">
+      <section id="styles" className="py-20 bg-white/50">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Наши направления</h2>
-            <p className="text-xl text-muted-foreground">Выбери свой стиль и начни двигаться</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Наши направления
+              </span>
+            </h2>
+            <p className="text-xl text-muted-foreground">Выбери свой стиль и начни танцевать</p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {danceClasses.map((danceClass) => (
-              <Card
-                key={danceClass.id}
-                className="overflow-hidden cursor-pointer transition-all hover:scale-105 hover:shadow-xl"
-                onClick={() => setSelectedClass(danceClass.id)}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {danceStyles.map((style, index) => (
+              <Card 
+                key={index} 
+                className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 hover:border-primary"
               >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={danceClass.image}
-                    alt={danceClass.title}
-                    className="w-full h-full object-cover transition-transform hover:scale-110"
-                  />
-                  <Badge className="absolute top-4 right-4 bg-primary">{danceClass.level}</Badge>
-                </div>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Icon name="Music2" className="h-5 w-5 text-primary" />
-                    {danceClass.title}
-                  </CardTitle>
-                  <CardDescription>{danceClass.schedule}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-primary">{danceClass.price}</span>
-                    <Button size="sm" className="bg-gradient-to-r from-primary to-secondary">
-                      Записаться
-                    </Button>
+                <CardContent className="p-6 text-center space-y-4">
+                  <div className={`${style.color} w-16 h-16 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform`}>
+                    <Icon name={style.icon as any} className="text-white" size={32} />
                   </div>
+                  <h3 className="text-xl font-bold">{style.name}</h3>
+                  <p className="text-muted-foreground">Занятия для всех уровней подготовки</p>
+                  <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground">
+                    Подробнее
+                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -160,157 +125,214 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="schedule" className="py-20 bg-muted/50">
-        <div className="container">
+      <section id="schedule" className="py-20">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Расписание занятий</h2>
-            <p className="text-xl text-muted-foreground">Выбирай удобное время для тренировок</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
+                Расписание занятий
+              </span>
+            </h2>
+            <p className="text-xl text-muted-foreground">Выбери удобное время и запишись онлайн</p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'].map((day) => (
-              <Card key={day}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Icon name="Calendar" className="h-5 w-5 text-primary" />
-                    {day}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-primary/10 rounded-lg">
-                    <div>
-                      <div className="font-semibold">18:00 - 19:30</div>
-                      <div className="text-sm text-muted-foreground">Hip-Hop</div>
-                    </div>
-                    <Button size="sm" variant="outline">
-                      <Icon name="Plus" className="h-4 w-4" />
-                    </Button>
+
+          <Tabs defaultValue="Понедельник" className="max-w-6xl mx-auto">
+            <TabsList className="grid w-full grid-cols-3 mb-8">
+              <TabsTrigger value="Понедельник">Понедельник</TabsTrigger>
+              <TabsTrigger value="Среда">Среда</TabsTrigger>
+              <TabsTrigger value="Пятница">Пятница</TabsTrigger>
+            </TabsList>
+            
+            {["Понедельник", "Среда", "Пятница"].map((day) => (
+              <TabsContent key={day} value={day} className="space-y-4">
+                {schedule.filter(item => item.day === day).map((item, index) => (
+                  <Card 
+                    key={index}
+                    className={`transition-all hover:shadow-lg cursor-pointer ${
+                      selectedClass === `${day}-${index}` ? 'border-2 border-primary' : ''
+                    }`}
+                    onClick={() => setSelectedClass(`${day}-${index}`)}
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                          <div className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-3 rounded-xl text-center min-w-[80px]">
+                            <div className="text-2xl font-bold">{item.time}</div>
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold mb-1">{item.style}</h3>
+                            <p className="text-muted-foreground">
+                              {item.level} • {item.instructor}
+                            </p>
+                          </div>
+                        </div>
+                        <Button 
+                          className="bg-gradient-to-r from-primary to-secondary hover:opacity-90"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            alert(`Запись на ${item.style} в ${item.time}`);
+                          }}
+                        >
+                          <Icon name="UserPlus" className="mr-2" size={18} />
+                          Записаться
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
+      </section>
+
+      <section id="instructors" className="py-20 bg-white/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
+                Наши преподаватели
+              </span>
+            </h2>
+            <p className="text-xl text-muted-foreground">Профессионалы с международным опытом</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {instructors.map((instructor, index) => (
+              <Card key={index} className="group hover:shadow-2xl transition-all hover:-translate-y-2">
+                <CardContent className="p-6 text-center space-y-4">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-r from-primary to-secondary mx-auto flex items-center justify-center text-white text-3xl font-bold">
+                    {instructor.name.split(' ').map(n => n[0]).join('')}
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-secondary/10 rounded-lg">
-                    <div>
-                      <div className="font-semibold">19:30 - 21:00</div>
-                      <div className="text-sm text-muted-foreground">Contemporary</div>
-                    </div>
-                    <Button size="sm" variant="outline">
-                      <Icon name="Plus" className="h-4 w-4" />
-                    </Button>
+                  <div>
+                    <h3 className="text-xl font-bold mb-1">{instructor.name}</h3>
+                    <p className="text-primary font-semibold">{instructor.specialty}</p>
+                    <p className="text-muted-foreground text-sm">Опыт: {instructor.experience}</p>
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="py-20 bg-gradient-to-r from-primary via-secondary to-accent text-white">
-        <div className="container text-center">
-          <Icon name="Sparkles" className="h-16 w-16 mx-auto mb-6" />
-          <h2 className="text-4xl font-bold mb-4">Готов начать танцевать?</h2>
-          <p className="text-xl mb-8 opacity-90">Первое занятие бесплатно для новых учеников</p>
-          <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
-            <Icon name="Rocket" className="mr-2 h-5 w-5" />
-            Записаться на пробное занятие
-          </Button>
         </div>
       </section>
 
       <section id="contact" className="py-20">
-        <div className="container">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-6">
-              <h2 className="text-4xl font-bold">Свяжитесь с нами</h2>
-              <p className="text-xl text-muted-foreground">
-                Остались вопросы? Мы с радостью на них ответим
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Icon name="MapPin" className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">Адрес</div>
-                    <div className="text-muted-foreground">ул. Танцевальная, 15</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full bg-secondary/10 flex items-center justify-center">
-                    <Icon name="Phone" className="h-6 w-6 text-secondary" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">Телефон</div>
-                    <div className="text-muted-foreground">+7 (999) 123-45-67</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center">
-                    <Icon name="Mail" className="h-6 w-6 text-accent" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">Email</div>
-                    <div className="text-muted-foreground">info@danceflow.ru</div>
-                  </div>
-                </div>
-              </div>
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                  Свяжитесь с нами
+                </span>
+              </h2>
+              <p className="text-xl text-muted-foreground">Запишитесь на пробное занятие прямо сейчас</p>
             </div>
-            <Card>
-              <CardHeader>
-                <CardTitle>Форма обратной связи</CardTitle>
-                <CardDescription>Заполните форму и мы свяжемся с вами</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Имя</label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Ваше имя"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Телефон</label>
-                  <input
-                    type="tel"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="+7 (999) 123-45-67"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Сообщение</label>
-                  <textarea
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary min-h-[100px]"
-                    placeholder="Ваше сообщение"
-                  />
-                </div>
-                <Button className="w-full bg-gradient-to-r from-primary to-secondary">
-                  <Icon name="Send" className="mr-2 h-4 w-4" />
-                  Отправить
-                </Button>
-              </CardContent>
-            </Card>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card>
+                <CardContent className="p-8 space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-primary/10 p-3 rounded-lg">
+                        <Icon name="MapPin" className="text-primary" size={24} />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Адрес</p>
+                        <p className="text-muted-foreground">ул. Танцевальная, 15</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="bg-secondary/10 p-3 rounded-lg">
+                        <Icon name="Phone" className="text-secondary" size={24} />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Телефон</p>
+                        <p className="text-muted-foreground">+7 (999) 123-45-67</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="bg-accent/10 p-3 rounded-lg">
+                        <Icon name="Mail" className="text-accent" size={24} />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Email</p>
+                        <p className="text-muted-foreground">info@danceflow.ru</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-8">
+                  <form className="space-y-4">
+                    <div>
+                      <Label htmlFor="name">Имя</Label>
+                      <Input id="name" placeholder="Ваше имя" />
+                    </div>
+                    <div>
+                      <Label htmlFor="phone">Телефон</Label>
+                      <Input id="phone" type="tel" placeholder="+7 (___) ___-__-__" />
+                    </div>
+                    <div>
+                      <Label htmlFor="style">Направление</Label>
+                      <select 
+                        id="style" 
+                        className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                      >
+                        <option>Выберите направление</option>
+                        {danceStyles.map((style, i) => (
+                          <option key={i}>{style.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90">
+                      Отправить заявку
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </section>
 
-      <footer className="border-t py-8">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Icon name="Music" className="h-6 w-6 text-primary" />
-              <span className="font-bold">Dance Flow</span>
+      <footer className="bg-foreground text-background py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Icon name="Music2" size={28} />
+                <span className="text-2xl font-bold">DanceFlow</span>
+              </div>
+              <p className="text-background/70">
+                Профессиональная школа танцев с 2010 года
+              </p>
             </div>
-            <div className="text-sm text-muted-foreground">
-              © 2024 Dance Flow. Все права защищены.
+            <div>
+              <h3 className="font-bold mb-4">Быстрые ссылки</h3>
+              <div className="space-y-2 text-background/70">
+                <div><a href="#home" className="hover:text-background transition-colors">Главная</a></div>
+                <div><a href="#styles" className="hover:text-background transition-colors">Направления</a></div>
+                <div><a href="#schedule" className="hover:text-background transition-colors">Расписание</a></div>
+              </div>
             </div>
-            <div className="flex gap-4">
-              <Button variant="ghost" size="icon">
-                <Icon name="Instagram" className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon">
-                <Icon name="Youtube" className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon">
-                <Icon name="Facebook" className="h-5 w-5" />
-              </Button>
+            <div>
+              <h3 className="font-bold mb-4">Социальные сети</h3>
+              <div className="flex gap-4">
+                <Button size="icon" variant="outline" className="border-background/20 hover:bg-background/10">
+                  <Icon name="Instagram" size={20} />
+                </Button>
+                <Button size="icon" variant="outline" className="border-background/20 hover:bg-background/10">
+                  <Icon name="Youtube" size={20} />
+                </Button>
+                <Button size="icon" variant="outline" className="border-background/20 hover:bg-background/10">
+                  <Icon name="Facebook" size={20} />
+                </Button>
+              </div>
             </div>
+          </div>
+          <div className="border-t border-background/20 pt-8 text-center text-background/70">
+            <p>&copy; 2024 DanceFlow. Все права защищены.</p>
           </div>
         </div>
       </footer>
